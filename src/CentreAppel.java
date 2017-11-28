@@ -39,8 +39,14 @@ public class CentreAppel {
 		++Bt;
 	}
 	
-	public void incrementerNbAppelsTelephoniquesTraites() { ++Nt; }
-	public void incrementerNbCourrielsTraites() { ++Nc; }
+	public void incrementerFileTelephone() { ++Qt; }
+	public void decrementerFileTelephone() { --Qt; }
+	
+	public void incrementerFileCourriel() { ++Qc; }
+	public void decrementerFileCourriel() { --Qc; }
+	
+	public void incrementerNbAppelsTelephoniquesTraites() { ++Nbt; }
+	public void incrementerNbCourrielsTraites() { ++Nbc; }
 	
 	public boolean verifierTemps() {
 		if (tempsActuel < fermeture) return true;
