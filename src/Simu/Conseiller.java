@@ -1,3 +1,5 @@
+package Simu;
+
 public class Conseiller {
 
     private String status;
