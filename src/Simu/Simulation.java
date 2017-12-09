@@ -1,5 +1,7 @@
 package Simu;
 
+import java.util.ArrayList;
+
 /**
  * Created by lelib on 29/11/2017.
  */
@@ -7,10 +9,12 @@ public class Simulation
 {
     private int dateSimu=0;
     private int derniereDateSimu=0;
-
+    private CentreAppel centreAppel;
+    private Aire aires;
+    private ArrayList<Evenement> evenements;
     public Simulation()
     {
-
+        Debut();
     }
 
     public void AjouterEvenement(int typeEvenement, double temps){
@@ -18,9 +22,9 @@ public class Simulation
     }
     public void Debut()
     {
-        Aire aires = new Aire();
-        CentreAppel centreAppel = new CentreAppel(0, 0, 0);
-
+        aires = new Aire();
+        centreAppel = new CentreAppel(0, 0, 0);
+        evenements = new ArrayList<Evenement>();
 
     }
 

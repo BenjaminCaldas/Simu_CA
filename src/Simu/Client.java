@@ -5,55 +5,61 @@ package Simu;
  */
 public class Client {
     // Type = true telephone | Type = false mail
-    private boolean Type;
+    private boolean type;
 
-    private int HeuresArrive;
-    private int Attente = 0;
-    private int TempsService;
+    private double heureArrive;
+    private double attente = 0;
+    private double tempsService;
+    private Loi loi= new Loi();
 
-    public Client(int Heure, boolean type)
+    public Client(double heure, boolean type)
     {
-        HeuresArrive = Heure;
-        Type = type;
-        TempsService = DefinirTempsService();
+        heureArrive = heure;
+        this.type = type;
+        if(type){
+            this.tempsService = loi.getDureeTraitementAppel();
+        }
+        else{
+            this.tempsService=loi.getDureeTraitementMail();
+        }
+    }
+    public Client (boolean type,double heureArrive, double attente, double tempsService){
+        this.type=type;
+        this.heureArrive=heureArrive;
+        this.attente=attente;
+        this.tempsService=tempsService;
     }
 
     public boolean getType() {
-        return Type;
+        return type;
     }
 
     public void setType(boolean type) {
-        Type = type;
+        type = type;
     }
 
-    public int getHeuresArrive() {
-        return HeuresArrive;
+    public double getHeuresArrive() {
+        return heureArrive;
     }
 
-    public void setHeureArrive(int heuresArrive) {
-        HeuresArrive = heuresArrive;
+    public void setHeureArrive(double heuresArrive) {
+        heuresArrive = heuresArrive;
     }
 
-    public int getAttente() {
-        return Attente;
+    public double getAttente() {
+        return attente;
     }
 
-    public void setAttente(int attente) {
-        Attente = attente;
+    public void setAttente(double attente) {
+        attente = attente;
     }
 
-    public int getTempsService() {
-        return TempsService;
+    public double getTempsService() {
+        return tempsService;
     }
 
-    public void setTempsService(int tempsService) {
-        TempsService = tempsService;
+    public void setTempsService(double tempsService) {
+        tempsService = tempsService;
     }
 
-    // Methode qui retourne le temps de service du client
-    // Si c'est pour un appel telephonique le temps varie de 5 a  15 minutes â†’ [300;900] secondes
-    // Si c'est pour un mail variation de 3 a  7 minutes â†’ [180;420] secondes
-    private int DefinirTempsService() {
-        return 0;
-    }
 }
