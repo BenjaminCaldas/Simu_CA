@@ -15,6 +15,11 @@ public class Evenement {
     private double time;
     private Client client;
 
+    public Evenement(int type, double time){
+        this.type=type;
+        this.time=time;
+    }
+
     public Evenement(int type, double time, Client client){
         this.type=type;
         this.time=time;
@@ -37,5 +42,10 @@ public class Evenement {
 
     public Client getClient(){
         return client;
+    }
+
+    public String toString(){
+        String print= "Time: "+ time+ ", type: "+ type;
+        return print;
     }
 }
