@@ -10,6 +10,7 @@ public class Evenement {
     //3= accès mail
     //4= fin traitement téléphone
     //5= fin traitement mail
+    //6= Fin
     private int type;
 
     private double time;
