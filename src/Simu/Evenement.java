@@ -14,18 +14,18 @@ public class Evenement {
     private int type;
 
     private double time;
-    private Client client;
+    //private Client client;
 
     public Evenement(int type, double time){
         this.type=type;
         this.time=time;
     }
 
-    public Evenement(int type, double time, Client client){
+    /*public Evenement(int type, double time, Client client){
         this.type=type;
         this.time=time;
         this.client=client;
-    }
+    }*/
     public int getType(){
         return type;
     }
@@ -41,12 +41,34 @@ public class Evenement {
         this.time=time;
     }
 
-    public Client getClient(){
+    /*public Client getClient(){
         return client;
-    }
+    }*/
 
     public String toString(){
-        String print= "Time: "+ time+ ", type: "+ type;
+        String typeEvent= new String();
+        if (type==0){
+            typeEvent="Arrivee Telephone";
+        }
+        else if (type==1){
+            typeEvent="Arrivee Mail";
+        }
+        else if (type==2){
+            typeEvent="Acces Telephone";
+        }
+        else if (type==3){
+            typeEvent="Accès Mail";
+        }
+        else if (type==4){
+            typeEvent="Fin traitement telephone";
+        }
+        else if (type==5){
+            typeEvent="Fin traitement mail";
+        }
+        else if (type==6){
+            typeEvent="Fin";
+        }
+        String print= "Time: "+ time+ ", type: "+ type+"  "+typeEvent;
         return print;
     }
 }

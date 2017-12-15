@@ -14,12 +14,12 @@ public class CentreAppel {
 	private int T; // Nb de postes téléphoniques
 
 	/* Variables */
-	private int Bt; // Nb de conseillers affectés au téléphone
-	private int Bc; // Nb de conseillers affectés aux courriers
-	private int Qt = 0; // Nb de clients dans la file téléphonique
-	private int Qc = 0; // Nb de clients dans la file courrier
-	private int Nbt = 0; // Nb d'appels téléphoniques traités
-	private int Nbc = 0; // Nb de courriels traités
+	private int conseillerTelephone; // Nb de conseillers affectés au téléphone
+	private int conseillerCourriel; // Nb de conseillers affectés aux courriers
+	private int nbClientQueueTelephone = 0; // Nb de clients dans la file téléphonique
+	private int nbClientQueueCourriel = 0; // Nb de clients dans la file courrier
+	private int nbAppelTraites = 0; // Nb d'appels téléphoniques traités
+	private int nbCourrielTraites = 0; // Nb de courriels traités
 
 	public CentreAppel(int nbConseillers, int nbConseillersTel, int nbPostesTel) {
 		tempsActuel = ouverture;
@@ -27,28 +27,18 @@ public class CentreAppel {
 		Nt = nbConseillersTel;
 		Nc = N - nbConseillersTel;
 		T = nbPostesTel;
-		Bt = Nt;
-		Bc = Nc;
+		conseillerTelephone = Nt;
+		conseillerCourriel = Nc;
 	}
 
-	public void ajouterConseillerCourriels() {
-		++Bc;
-		--Bt;
-	}
+	public void incrementerFileTelephone() { ++nbClientQueueTelephone; }
+	public void decrementerFileTelephone() { --nbClientQueueTelephone; }
 
-	public void enleverConseillerCourriels() {
-		--Bc;
-		++Bt;
-	}
+	public void incrementerFileCourriel() { ++nbClientQueueCourriel; }
+	public void decrementerFileCourriel() { --nbClientQueueCourriel; }
 
-	public void incrementerFileTelephone() { ++Qt; }
-	public void decrementerFileTelephone() { --Qt; }
-
-	public void incrementerFileCourriel() { ++Qc; }
-	public void decrementerFileCourriel() { --Qc; }
-
-	public void incrementerNbAppelsTelephoniquesTraites() { ++Nbt; }
-	public void incrementerNbCourrielsTraites() { ++Nbc; }
+	public void incrementerNbAppelsTelephoniquesTraites() { ++nbAppelTraites; }
+	public void incrementerNbCourrielsTraites() { ++nbCourrielTraites; }
 
 	public boolean verifierTemps() {
 		if (tempsActuel < fermeture) return true;
@@ -63,52 +53,52 @@ public class CentreAppel {
 		this.tempsActuel = tempsActuel;
 	}
 
-	public int getBt() {
-		return Bt;
+	public int getConseillerTelephone() {
+		return conseillerTelephone;
 	}
 
-	public void setBt(int bt) {
-		Bt = bt;
+	public void setConseillerTelephone(int bt) {
+		conseillerTelephone = bt;
 	}
 
-	public int getBc() {
-		return Bc;
+	public int getConseillerCourriel() {
+		return conseillerCourriel;
 	}
 
-	public void setBc(int bc) {
-		Bc = bc;
+	public void setConseillerCourriel(int bc) {
+		conseillerCourriel = bc;
 	}
 
-	public int getQt() {
-		return Qt;
+	public int getNbClientQueueTelephone() {
+		return nbClientQueueTelephone;
 	}
 
-	public void setQt(int qt) {
-		Qt = qt;
+	public void setNbClientQueueTelephone(int qt) {
+		nbClientQueueTelephone = qt;
 	}
 
-	public int getQc() {
-		return Qc;
+	public int getNbClientQueueCourriel() {
+		return nbClientQueueCourriel;
 	}
 
-	public void setQc(int qc) {
-		Qc = qc;
+	public void setNbClientQueueCourriel(int qc) {
+		nbClientQueueCourriel = qc;
 	}
 
-	public int getNbt() {
-		return Nbt;
+	public int getNbAppelTraites() {
+		return nbAppelTraites;
 	}
 
-	public void setNbt(int nbt) {
-		Nbt = nbt;
+	public void setNbAppelTraites(int nbt) {
+		nbAppelTraites = nbt;
 	}
 
-	public int getNbc() {
-		return Nbc;
+	public int getNbCourrielTraites() {
+		return nbCourrielTraites;
 	}
 
-	public void setNbc(int nbc) {
-		Nbc = nbc;
+	public void setNbCourrielTraites(int nbc) {
+		nbCourrielTraites = nbc;
 	}
 
 	public int getOuverture() {

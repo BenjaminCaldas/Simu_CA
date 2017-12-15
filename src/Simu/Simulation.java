@@ -13,11 +13,24 @@ public class Simulation
     private CentreAppel centreAppel;
     private Aire aires;
     private ArrayList<Evenement> evenements;
+    private Loi loi = new Loi();
+
     public Simulation(int nbConseillers, int nbConseillersTel, int nbPostesTel)
     {
-        Debut();
         evenements=new ArrayList<Evenement>();
         centreAppel=new CentreAppel(nbConseillers,nbConseillersTel,nbPostesTel);
+        aires = new Aire();
+        Debut();
+    }
+
+    public void Debut()
+    {
+        dateSimu=0;
+        centreAppel.setNbClientQueueCourriel(loi.getNbMailNuit());
+        AjouterEvenement(0,loi.getLoiExponentionnelleTelephone(dateSimu));
+        AjouterEvenement(1,loi.getLoiExponentielleMail(dateSimu));
+        AjouterEvenement(6,centreAppel.getFermeture());
+        derniereDateSimu=dateSimu;
     }
 
     public int AjouterEvenement(int typeEvenement, double temps){
@@ -33,23 +46,12 @@ public class Simulation
         evenements.add(new Evenement(typeEvenement,temps));
         return 0;
     }
+
     public void PrintJournal(){
         Iterator<Evenement> it = evenements.iterator();
         while (it.hasNext()) {
             System.out.println(it.next().toString());
         }
-    }
-    public void Debut()
-    {
-        aires = new Aire();
-        centreAppel = new CentreAppel(0, 0, 0);
-        evenements = new ArrayList<Evenement>();
-        centreAppel.setQc(getNbMailNuit());
-        AjouterEvenement(1,getLoiExponentionnelleMail(0));
-        AjouterEvenement(0,getLoiExponentielleMail(0));
-        AjouterEvenement(6,14400);
-        dateSimu=0;
-        derniereDateSimu=dateSimu;
     }
 
     public void Fin()
@@ -59,59 +61,68 @@ public class Simulation
 
     public void ArriveeMail(){
         MiseAJourDesAires();
-        centreAppel.setQc(centreAppel.getQc()+1);
+        centreAppel.setNbClientQueueCourriel(centreAppel.getNbClientQueueCourriel()+1);
+        AjouterEvenement(1,centreAppel.getTempsActuel()+loi.getLoiExponentielleMail(dateSimu));
         derniereDateSimu=dateSimu;
+
     }
 
-    public void AccesMail(CentreAppel centreAppel){
+    public void AccesMail(){
         MiseAJourDesAires();
-        AjouterEvenement(5,centreAppel.getTempsActuel());
-        centreAppel.ajouterConseillerCourriels();
+        AjouterEvenement(5,centreAppel.getTempsActuel()+loi.getDureeTraitementMail());
+        centreAppel.setConseillerCourriel(centreAppel.getConseillerCourriel()+1);
+        centreAppel.decrementerFileCourriel();
         derniereDateSimu = dateSimu;
     }
 
     public void SortieMail(){
         MiseAJourDesAires();
-        centreAppel.setBc(centreAppel.getBc()-1);
-        centreAppel.setNbc(centreAppel.getNc()+1);
-        if(centreAppel.getQt()>centreAppel.getBt() && centreAppel.getBt()<centreAppel.getT()){
+        centreAppel.setConseillerCourriel(centreAppel.getConseillerCourriel()-1);
+        centreAppel.incrementerNbCourrielsTraites();
+        if(centreAppel.getNbClientQueueTelephone()>centreAppel.getConseillerTelephone() && centreAppel.getConseillerTelephone()<centreAppel.getT()){
             AjouterEvenement(2,dateSimu);
         }
-        else if (centreAppel.getQc()>0){
+        else if (centreAppel.getNbClientQueueCourriel()>0){
             AjouterEvenement(3,dateSimu);
         }
         derniereDateSimu=dateSimu;
     }
 
-    public void ArriveeTelephone(CentreAppel centreAppel){
-        AjouterEvenement(0,centreAppel.getTempsActuel());
-
-        if((centreAppel.getN() - centreAppel.getBt() - centreAppel.getBc() == 0) ||
-                (centreAppel.getQt() > centreAppel.getBt() && centreAppel.getBt() < centreAppel.getT())){
+    public void ArriveeTelephone(){
+        MiseAJourDesAires();
+        AjouterEvenement(0,centreAppel.getTempsActuel()+loi.getLoiExponentionnelleTelephone(dateSimu));
+        int nbConseillerInoccuppe=centreAppel.getN() - centreAppel.getConseillerTelephone() - centreAppel.getConseillerCourriel();
+        if(( nbConseillerInoccuppe== 0) || (centreAppel.getNbClientQueueTelephone() > centreAppel.getConseillerTelephone() &&
+                        centreAppel.getConseillerTelephone() < centreAppel.getT())){
             centreAppel.incrementerFileTelephone();
         }
         else{
             AjouterEvenement(0,centreAppel.getTempsActuel());
         }
         derniereDateSimu = dateSimu;
+
+        MiseAJourDesAires();
+        centreAppel.setNbClientQueueCourriel(centreAppel.getNbClientQueueCourriel()+1);
+        AjouterEvenement(1,centreAppel.getTempsActuel()+loi.getLoiExponentielleMail(dateSimu));
+        derniereDateSimu=dateSimu;
     }
 
 
     public void AccesTelephone(CentreAppel centreAppel){
         AjouterEvenement(0,centreAppel.getTempsActuel());
-        centreAppel.enleverConseillerCourriels();
+        //centreAppel.enleverConseillerCourriels();
         MiseAJourDesAires();
         derniereDateSimu = dateSimu;
     }
 
     public void SortieTelephone(){
         MiseAJourDesAires();
-        centreAppel.setBt(centreAppel.getBt()-1);
-        centreAppel.setNt(centreAppel.getNt()+1);
-        if(centreAppel.getQt()>0){
+        centreAppel.setConseillerTelephone(centreAppel.getConseillerTelephone()-1);
+        centreAppel.setNbAppelTraites(centreAppel.getNbAppelTraites()+1);
+        if(centreAppel.getNbClientQueueTelephone()>0){
             AjouterEvenement(2,dateSimu);
         }
-        else if (centreAppel.getQc()>0){
+        else if (centreAppel.getNbClientQueueCourriel()>0){
             AjouterEvenement(3,dateSimu);
         }
         derniereDateSimu=dateSimu;

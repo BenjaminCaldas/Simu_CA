@@ -5,85 +5,89 @@ package Simu;
  */
 public class Aire
 {
-    private double AireQt;
-    private double AireQc;
-    private double AireQb;
-    private double AireQbt;
+    private double AireFileClient; //File attente client téléphone
+    private double AireFileCourriel; //File attente mail
+    private double AireOccupationConseiller; //
+    private double AireOccupationConseillerTelephone;
 
     public Aire()
     {
-        this.AireQt = 0;
-        this.AireQc = 0;
-        this.AireQb = 0;
-        this.AireQbt = 0;
+        this.AireFileClient = 0;
+        this.AireFileCourriel = 0;
+        this.AireOccupationConseiller = 0;
+        this.AireOccupationConseillerTelephone = 0;
     }
 
-    public Aire(double AireQt, double AireQc, double AireQb, double AireQbt)
+    public Aire(double AireFileClient, double AireFileCourriel, double AireOccupationConseiller, double AireQbt)
     {
-        this.setAireQt(AireQt);
-        this.setAireQc(AireQc);
-        this.setAireQb(AireQb);
-        this.setAireQbt(AireQbt);
+        this.setAireFileClient(AireFileClient);
+        this.setAireFileCourriel(AireFileCourriel);
+        this.setAireOccupationConseiller(AireOccupationConseiller);
+        this.setAireOccupationConseillerTelephone(AireQbt);
     }
 
-    public void MajAire(int dateSimu, int derniereDateSimu, int Qt, int Qc, int Bt, int Bc, int Qbt)
+    public void MajAire(int dateSimu, int derniereDateSimu, int FileTelephone, int FileCourriel,
+                        int nbConseillerTelephone, int nbConseillerCourriel, int Qbt)
     {
-        setAireQt(getAireQt() + ((dateSimu - derniereDateSimu) * Qt));
-        setAireQc(getAireQc() + ((dateSimu - derniereDateSimu) * Qc));
-        setAireQb(getAireQb() + ((dateSimu - derniereDateSimu) * (Bt + Bc)));
-        setAireQbt(getAireQbt() + ((dateSimu - derniereDateSimu) * Qbt));
+        setAireFileClient(getAireFileClient() + ((dateSimu - derniereDateSimu) * FileTelephone));
+        setAireFileCourriel(getAireFileCourriel() + ((dateSimu - derniereDateSimu) * FileCourriel));
+        setAireOccupationConseiller(getAireOccupationConseiller() + ((dateSimu - derniereDateSimu) * (nbConseillerTelephone + nbConseillerCourriel)));
+        setAireOccupationConseillerTelephone(getAireOccupationConseillerTelephone() + ((dateSimu - derniereDateSimu) * Qbt));
     }
 
-    public void MajAireQt(int dateSimu, int derniereDateSimu, int Qt)
+    public void MajAireFileClient(int dateSimu, int derniereDateSimu, int Qt)
     {
-        setAireQt(getAireQt() + ((dateSimu - derniereDateSimu) * Qt));
+        setAireFileClient(getAireFileClient() + ((dateSimu - derniereDateSimu) * Qt));
     }
 
-    public void MajAireQc(int dateSimu, int derniereDateSimu, int Qc)
+    public void MajAireFileCourriel(int dateSimu, int derniereDateSimu, int Qc)
     {
-        setAireQc(getAireQc() + ((dateSimu - derniereDateSimu) * Qc));
+        setAireFileCourriel(getAireFileCourriel() + ((dateSimu - derniereDateSimu) * Qc));
     }
 
-    public void MajAireQb(int dateSimu, int derniereDateSimu, int Bt, int Bc)
+    public void MajAireOccupationConseiller(int dateSimu,
+                                            int derniereDateSimu, int nbConseillerTelephone, int nbConseillerCourriel)
     {
-        setAireQb(getAireQb() + ((dateSimu - derniereDateSimu) * (Bt + Bc)));
+        setAireOccupationConseiller(getAireOccupationConseiller() + ((dateSimu - derniereDateSimu) *
+                (nbConseillerTelephone + nbConseillerCourriel)));
     }
 
-    public void MajAireQbt(int dateSimu, int derniereDateSimu, int Qbt)
+    public void MajAireOccupationConseillerTelephone(int dateSimu, int derniereDateSimu, int OccupationConseillerTelephone)
     {
-        setAireQbt(getAireQbt() + ((dateSimu - derniereDateSimu) * Qbt));
+        setAireOccupationConseillerTelephone(getAireOccupationConseillerTelephone() +
+                ((dateSimu - derniereDateSimu) * OccupationConseillerTelephone));
     }
 
 
-    public double getAireQt() {
-        return AireQt;
+    public double getAireFileClient() {
+        return AireFileClient;
     }
 
-    public void setAireQt(double aireQt) {
-        AireQt = aireQt;
+    public void setAireFileClient(double aireQt) {
+        AireFileClient = aireQt;
     }
 
-    public double getAireQc() {
-        return AireQc;
+    public double getAireFileCourriel() {
+        return AireFileCourriel;
     }
 
-    public void setAireQc(double aireQc) {
-        AireQc = aireQc;
+    public void setAireFileCourriel(double aireFileCourriel) {
+        AireFileCourriel = aireFileCourriel;
     }
 
-    public double getAireQb() {
-        return AireQb;
+    public double getAireOccupationConseiller() {
+        return AireOccupationConseiller;
     }
 
-    public void setAireQb(double aireQb) {
-        AireQb = aireQb;
+    public void setAireOccupationConseiller(double aireQb) {
+        AireOccupationConseiller = aireQb;
     }
 
-    public double getAireQbt() {
-        return AireQbt;
+    public double getAireOccupationConseillerTelephone() {
+        return AireOccupationConseillerTelephone;
     }
 
-    public void setAireQbt(double aireQbt) {
-        AireQbt = aireQbt;
+    public void setAireOccupationConseillerTelephone(double aireQbt) {
+        AireOccupationConseillerTelephone = aireQbt;
     }
 }
