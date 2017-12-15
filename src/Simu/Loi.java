@@ -59,8 +59,8 @@ public class Loi {
     }
     public static void main(String[] args) {
         Loi loi = new Loi();
-        for (int i=0; i<5; i++){
-            System.out.println(loi.getLoiExponentielleMail(i*1000));
+        for (int i=0; i<14400; i++){
+            System.out.println(loi.getLoiExponentielleMail(i));
         }
 
     }

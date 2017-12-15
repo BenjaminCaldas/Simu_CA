@@ -45,14 +45,6 @@ public class CentreAppel {
 		else return false;
 	}
 
-	public int getTempsActuel() {
-		return tempsActuel;
-	}
-
-	public void setTempsActuel(int tempsActuel) {
-		this.tempsActuel = tempsActuel;
-	}
-
 	public int getConseillerTelephone() {
 		return conseillerTelephone;
 	}
