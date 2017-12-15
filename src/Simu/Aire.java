@@ -26,7 +26,7 @@ public class Aire
         this.setAireOccupationConseillerTelephone(AireQbt);
     }
 
-    public void MajAire(int dateSimu, int derniereDateSimu, int FileTelephone, int FileCourriel,
+    public void MajAire(double dateSimu, double derniereDateSimu, int FileTelephone, int FileCourriel,
                         int nbConseillerTelephone, int nbConseillerCourriel, int Qbt)
     {
         setAireFileClient(getAireFileClient() + ((dateSimu - derniereDateSimu) * FileTelephone));
@@ -35,24 +35,24 @@ public class Aire
         setAireOccupationConseillerTelephone(getAireOccupationConseillerTelephone() + ((dateSimu - derniereDateSimu) * Qbt));
     }
 
-    public void MajAireFileClient(int dateSimu, int derniereDateSimu, int Qt)
+    public void MajAireFileClient(double dateSimu, double derniereDateSimu, int Qt)
     {
         setAireFileClient(getAireFileClient() + ((dateSimu - derniereDateSimu) * Qt));
     }
 
-    public void MajAireFileCourriel(int dateSimu, int derniereDateSimu, int Qc)
+    public void MajAireFileCourriel(double dateSimu, double derniereDateSimu, int Qc)
     {
         setAireFileCourriel(getAireFileCourriel() + ((dateSimu - derniereDateSimu) * Qc));
     }
 
-    public void MajAireOccupationConseiller(int dateSimu,
-                                            int derniereDateSimu, int nbConseillerTelephone, int nbConseillerCourriel)
+    public void MajAireOccupationConseiller(double dateSimu, double derniereDateSimu,
+                                            int nbConseillerTelephone, int nbConseillerCourriel)
     {
         setAireOccupationConseiller(getAireOccupationConseiller() + ((dateSimu - derniereDateSimu) *
                 (nbConseillerTelephone + nbConseillerCourriel)));
     }
 
-    public void MajAireOccupationConseillerTelephone(int dateSimu, int derniereDateSimu, int OccupationConseillerTelephone)
+    public void MajAireOccupationConseillerTelephone(double dateSimu, double derniereDateSimu, int OccupationConseillerTelephone)
     {
         setAireOccupationConseillerTelephone(getAireOccupationConseillerTelephone() +
                 ((dateSimu - derniereDateSimu) * OccupationConseillerTelephone));
