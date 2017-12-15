@@ -101,8 +101,12 @@ public class Simulation
         if(centreAppel.getNbCourrielTraites()==0&&debut==true) {
             for(int i=0;i<centreAppel.getNc()&& i<centreAppel.getNbClientQueueCourriel(); i++){
                 AjouterEvenement(3, dateSimu);
+                centreAppel.setConseillerCourriel(centreAppel.getConseillerCourriel()-1);
             }
             debut=false;
+        }
+        if(centreAppel.getConseillerTelephone()+centreAppel.getConseillerCourriel()<centreAppel.getN()) {
+            AjouterEvenement(3, dateSimu);
         }
         derniereDateSimu = dateSimu;
     }
@@ -176,7 +180,7 @@ public class Simulation
     }
 
     public static void main(String[] args) {
-        Simulation simu = new Simulation(20,10,15);
+        Simulation simu = new Simulation(15,3,6);
         int i=0;
         int un=0;
         int deux=0;
@@ -228,6 +232,11 @@ public class Simulation
         System.out.println("Sortie mail :"+six);
         System.out.println("Nb Personne Tel: "+ simu.centreAppel.getConseillerTelephone());
         System.out.println("Nb Personne Mail: "+ simu.centreAppel.getConseillerCourriel());
-
+        System.out.println("Appel en attente: "+ simu.centreAppel.getNbClientQueueTelephone());
+        System.out.println("Mail en attente: "+ simu.centreAppel.getNbClientQueueCourriel());
+        System.out.println("Temps d'attente moyen client téléphone : "+ simu.tempsAttenteClientTel);
+        System.out.println("Délai réponse courrier : "+ simu.delaiReponseCourrier);
+        System.out.println("Taux d'occupation conseiller : "+ simu.tauxOccupationConseiller);
+        System.out.println("Taux d'occupation poste téléphonique : "+ simu.tauxOccupationPosteTel);
     }
 }
