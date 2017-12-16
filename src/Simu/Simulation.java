@@ -105,7 +105,7 @@ public class Simulation
             }
             debut=false;
         }
-        else if(centreAppel.getConseillerTelephone()+centreAppel.getConseillerCourriel()<centreAppel.getN()) {
+        else if(centreAppel.getConseillerTelephone()+centreAppel.getConseillerCourriel()<centreAppel.getN()&&centreAppel.getNbCourrielTraites()>0) {
             AjouterEvenement(3, dateSimu);
         }
         derniereDateSimu = dateSimu;
@@ -181,7 +181,7 @@ public class Simulation
     }
 
     public static void main(String[] args) {
-        Simulation simu = new Simulation(80,15,60);
+        Simulation simu = new Simulation(80,1,1);
         int i=0;
         int un=0;
         int deux=0;
