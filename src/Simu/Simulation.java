@@ -45,6 +45,8 @@ public class Simulation
     private double delaiReponseCourrier=0.0;
     private double tauxOccupationConseiller=0.0;
     private double tauxOccupationPosteTel=0.0;
+    private double nbClientMoyenQueueTelephone=0.0;
+    private double nbClientMoyenQueueCourrier =0.0;
 
     public Simulation(int nbConseillers, int nbConseillersTel, int nbPostesTel)
     {
@@ -92,6 +94,9 @@ public class Simulation
         delaiReponseCourrier=aires.getAireFileCourriel()/centreAppel.getNbCourrielTraites();
         tauxOccupationConseiller=aires.getAireOccupationConseiller()/(centreAppel.getFermeture()*centreAppel.getN());
         tauxOccupationPosteTel=aires.getAireOccupationConseillerTelephone()/(centreAppel.getFermeture()*centreAppel.getT());
+        nbClientMoyenQueueTelephone=aires.getAireFileClient()/centreAppel.getFermeture();
+        nbClientMoyenQueueCourrier=aires.getAireFileCourriel()/centreAppel.getFermeture();
+
     }
 
     public void ArriveeMail(){
@@ -99,9 +104,12 @@ public class Simulation
         centreAppel.setNbClientQueueCourriel(centreAppel.getNbClientQueueCourriel()+1);
         AjouterEvenement(1,dateSimu+loi.getLoiExponentielleMail(dateSimu));
         if(centreAppel.getNbCourrielTraites()==0&&debut==true) {
-            for(int i=0;i<centreAppel.getNc()&& i<centreAppel.getNbClientQueueCourriel(); i++){
-                AjouterEvenement(3, dateSimu);
-                centreAppel.setConseillerCourriel(centreAppel.getConseillerCourriel()-1);
+            for (int i = 0; i < centreAppel.getNc(); i++){
+                if (i < centreAppel.getNbClientQueueCourriel()) {
+                    AjouterEvenement(3, dateSimu);
+
+                }
+                centreAppel.setConseillerCourriel(centreAppel.getConseillerCourriel() - 1);
             }
             debut=false;
         }
@@ -181,7 +189,7 @@ public class Simulation
     }
 
     public static void main(String[] args) {
-        Simulation simu = new Simulation(80,1,1);
+        Simulation simu = new Simulation(15,5,20);
         int i=0;
         int un=0;
         int deux=0;
@@ -246,5 +254,7 @@ public class Simulation
         System.out.println("Délai réponse courrier : "+ simu.delaiReponseCourrier);
         System.out.println("Taux d'occupation conseiller : "+ simu.tauxOccupationConseiller);
         System.out.println("Taux d'occupation poste téléphonique : "+ simu.tauxOccupationPosteTel);
+        System.out.println("Nb moyen de clients dans la queue du telephone: "+ simu.nbClientMoyenQueueTelephone);
+        System.out.println("Nb moyen de clients dans la queue des mails: "+ simu.nbClientMoyenQueueCourrier);
     }
 }
