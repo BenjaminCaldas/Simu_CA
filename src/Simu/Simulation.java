@@ -90,8 +90,8 @@ public class Simulation
         MiseAJourDesAires();
         tempsAttenteClientTel=aires.getAireFileClient()/centreAppel.getNbAppelTraites();
         delaiReponseCourrier=aires.getAireFileCourriel()/centreAppel.getNbCourrielTraites();
-        tauxOccupationConseiller=aires.getAireOccupationConseiller()/centreAppel.getFermeture();
-        tauxOccupationPosteTel=aires.getAireOccupationConseillerTelephone()/centreAppel.getFermeture();
+        tauxOccupationConseiller=aires.getAireOccupationConseiller()/(centreAppel.getFermeture()*centreAppel.getN());
+        tauxOccupationPosteTel=aires.getAireOccupationConseillerTelephone()/(centreAppel.getFermeture()*centreAppel.getT());
     }
 
     public void ArriveeMail(){
@@ -105,7 +105,7 @@ public class Simulation
             }
             debut=false;
         }
-        if(centreAppel.getConseillerTelephone()+centreAppel.getConseillerCourriel()<centreAppel.getN()) {
+        else if(centreAppel.getConseillerTelephone()+centreAppel.getConseillerCourriel()<centreAppel.getN()) {
             AjouterEvenement(3, dateSimu);
         }
         derniereDateSimu = dateSimu;
@@ -139,7 +139,8 @@ public class Simulation
         MiseAJourDesAires();
         AjouterEvenement(0,dateSimu+loi.getLoiExponentionnelleTelephone(dateSimu));
         centreAppel.incrementerFileTelephone();
-        if(dateSimu<1800) {
+        if(dateSimu<1800 && centreAppel.getConseillerTelephone()<centreAppel.getT()
+                &&centreAppel.getConseillerTelephone()+centreAppel.getConseillerCourriel()<centreAppel.getN()) {
                 AjouterEvenement(2, dateSimu);
         }
         derniereDateSimu = dateSimu;
@@ -180,7 +181,7 @@ public class Simulation
     }
 
     public static void main(String[] args) {
-        Simulation simu = new Simulation(15,3,6);
+        Simulation simu = new Simulation(80,15,60);
         int i=0;
         int un=0;
         int deux=0;
@@ -191,8 +192,9 @@ public class Simulation
 
         while (i<simu.getEvenements().size()){
             simu.setDateSimu(simu.getEvenements().get(i).getTime());
+
             int type=simu.getEvenements().get(i).getType();
-            //System.out.println(simu.getEvenements().get(i).toString());
+
             if (type==0){
                 simu.ArriveeTelephone();
                 un++;
@@ -221,6 +223,12 @@ public class Simulation
                 simu.Fin();
                 break;
             }
+            /*System.out.println("Nb conseiller inoccuppe: "+ (simu.centreAppel.getN()-simu.centreAppel.getConseillerCourriel()
+                    -simu.centreAppel.getConseillerTelephone()));
+            System.out.println("Nb conseiller tel: "+ (simu.centreAppel.getConseillerTelephone()));
+            System.out.println("Nb conseiller mail: "+ (simu.centreAppel.getConseillerCourriel()));
+            System.out.println(simu.getEvenements().get(i).toString());
+            System.out.println(" ");*/
             i++;
         }
         simu.PrintJournal();

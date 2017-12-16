@@ -12,10 +12,10 @@ public class Aire
 
     public Aire()
     {
-        this.AireFileClient = 0;
-        this.AireFileCourriel = 0;
-        this.AireOccupationConseiller = 0;
-        this.AireOccupationConseillerTelephone = 0;
+        this.AireFileClient = 0.0;
+        this.AireFileCourriel = 0.0;
+        this.AireOccupationConseiller = 0.0;
+        this.AireOccupationConseillerTelephone = 0.0;
     }
 
     public Aire(double AireFileClient, double AireFileCourriel, double AireOccupationConseiller, double AireQbt)
@@ -37,25 +37,27 @@ public class Aire
 
     public void MajAireFileClient(double dateSimu, double derniereDateSimu, int Qt)
     {
-        setAireFileClient(getAireFileClient() + ((dateSimu - derniereDateSimu) * Qt));
+
+        setAireFileClient(getAireFileClient() + ((dateSimu - derniereDateSimu) * (double)Qt));
+        System.out.println(getAireFileClient());
     }
 
     public void MajAireFileCourriel(double dateSimu, double derniereDateSimu, int Qc)
     {
-        setAireFileCourriel(getAireFileCourriel() + ((dateSimu - derniereDateSimu) * Qc));
+        setAireFileCourriel(getAireFileCourriel() + ((dateSimu - derniereDateSimu) * (double)Qc));
     }
 
     public void MajAireOccupationConseiller(double dateSimu, double derniereDateSimu,
                                             int nbConseillerTelephone, int nbConseillerCourriel)
     {
         setAireOccupationConseiller(getAireOccupationConseiller() + ((dateSimu - derniereDateSimu) *
-                (nbConseillerTelephone + nbConseillerCourriel)));
+                (double)(nbConseillerTelephone + nbConseillerCourriel)));
     }
 
     public void MajAireOccupationConseillerTelephone(double dateSimu, double derniereDateSimu, int OccupationConseillerTelephone)
     {
         setAireOccupationConseillerTelephone(getAireOccupationConseillerTelephone() +
-                ((dateSimu - derniereDateSimu) * OccupationConseillerTelephone));
+                ((dateSimu - derniereDateSimu) * (double)OccupationConseillerTelephone));
     }
 
 
