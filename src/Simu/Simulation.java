@@ -8,10 +8,6 @@ import java.util.Iterator;
  */
 public class Simulation
 {
-    public void setDateSimu(double dateSimu) {
-        this.dateSimu = dateSimu;
-    }
-
     private double dateSimu=0;
     private double derniereDateSimu=0;
     private CentreAppel centreAppel;
@@ -20,6 +16,14 @@ public class Simulation
 
     public ArrayList<Evenement> getEvenements() {
         return evenements;
+    }
+
+    /**
+     * Setter de la date de simulation
+     * @param dateSimu
+     */
+    public void setDateSimu(double dateSimu) {
+        this.dateSimu = dateSimu;
     }
 
     public double getTempsAttenteClientTel() {
@@ -38,16 +42,23 @@ public class Simulation
         return tauxOccupationPosteTel;
     }
 
-    private ArrayList<Evenement> evenements;
-    private Loi loi = new Loi();
+    private ArrayList<Evenement> evenements; //liste des événements
+    private Loi loi = new Loi(); //classe servant à utiliser les lois
 
-    private double tempsAttenteClientTel=0.0;
-    private double delaiReponseCourrier=0.0;
-    private double tauxOccupationConseiller=0.0;
-    private double tauxOccupationPosteTel=0.0;
-    private double nbClientMoyenQueueTelephone=0.0;
-    private double nbClientMoyenQueueCourrier =0.0;
+    private double tempsAttenteClientTel=0.0; //Temps d'attente client
+    private double delaiReponseCourrier=0.0; //Delai réponse courrier
+    private double tauxOccupationConseiller=0.0; //Taux d'occupation des conseillers
+    private double tauxOccupationPosteTel=0.0; //Taux d'occupation des conseillers au poste téléphonique
+    private double nbClientMoyenQueueTelephone=0.0; //Nombre de client moyen dans la queue téléphonique
+    private double nbClientMoyenQueueCourrier =0.0; //Nombre de client moyen dans la queue des mails
 
+    /**
+     * Constructeur de la Simulation
+     *
+     * @param nbConseillers Le nombre total de conseillers
+     * @param nbConseillersTel Le nombre de conseillers affectés au téléphone au départ
+     * @param nbPostesTel Nombre de postes téléphoniques disponibles
+     */
     public Simulation(int nbConseillers, int nbConseillersTel, int nbPostesTel)
     {
         evenements=new ArrayList<Evenement>();
@@ -56,6 +67,9 @@ public class Simulation
         Debut();
     }
 
+    /**
+     * Evénement de début
+     */
     public void Debut()
     {
         dateSimu=0;
@@ -66,6 +80,12 @@ public class Simulation
         derniereDateSimu=dateSimu;
     }
 
+    /**
+     * Ajout d'un Evenement dans la liste d'evenements
+     * @param typeEvenement
+     * @param temps
+     * @return
+     */
     public int AjouterEvenement(int typeEvenement, double temps){
         Iterator<Evenement> it = evenements.iterator();
         int i=0;
@@ -80,6 +100,9 @@ public class Simulation
         return 0;
     }
 
+    /**
+     * Affichage du journal d'événement
+     */
     public void PrintJournal(){
         Iterator<Evenement> it = evenements.iterator();
         while (it.hasNext()) {
@@ -87,9 +110,14 @@ public class Simulation
         }
     }
 
+    /**
+     * Evenement de fin
+     */
     public void Fin()
     {
         MiseAJourDesAires();
+
+        //Calcul des indicateurs statistiques
         tempsAttenteClientTel=aires.getAireFileClient()/centreAppel.getNbAppelTraites();
         delaiReponseCourrier=aires.getAireFileCourriel()/centreAppel.getNbCourrielTraites();
         tauxOccupationConseiller=aires.getAireOccupationConseiller()/(centreAppel.getFermeture()*centreAppel.getN());
@@ -99,10 +127,16 @@ public class Simulation
 
     }
 
+    /**
+     * Evenement Arrivée d'un Mail
+     */
     public void ArriveeMail(){
         MiseAJourDesAires();
         centreAppel.setNbClientQueueCourriel(centreAppel.getNbClientQueueCourriel()+1);
         AjouterEvenement(1,dateSimu+loi.getLoiExponentielleMail(dateSimu));
+        //Si l'on est au début de la simulation on décrémente le nombre de personnes affectés au mail
+        //et on ajoute un evenement d'accès mail jusqu'à ce qu'il n'y ai plus de personnes affectés au mail
+        //ou de mail en attente
         if(centreAppel.getNbCourrielTraites()==0&&debut==true) {
             for (int i = 0; i < centreAppel.getNc(); i++){
                 if (i < centreAppel.getNbClientQueueCourriel()) {
@@ -119,6 +153,9 @@ public class Simulation
         derniereDateSimu = dateSimu;
     }
 
+    /**
+     * Evenement Accès à un mail
+     */
     public void AccesMail(){
         MiseAJourDesAires();
         AjouterEvenement(5,dateSimu+loi.getDureeTraitementMail());
@@ -127,6 +164,9 @@ public class Simulation
         derniereDateSimu = dateSimu;
     }
 
+    /**
+     * Evenement de sortie d'un mail
+     */
     public void SortieMail(){
         MiseAJourDesAires();
         centreAppel.setConseillerCourriel(centreAppel.getConseillerCourriel()-1);
@@ -143,6 +183,9 @@ public class Simulation
         derniereDateSimu=dateSimu;
     }
 
+    /**
+     * Evenement d'arrivée d'un appel téléphonique
+     */
     public void ArriveeTelephone(){
         MiseAJourDesAires();
         AjouterEvenement(0,dateSimu+loi.getLoiExponentionnelleTelephone(dateSimu));
@@ -154,7 +197,9 @@ public class Simulation
         derniereDateSimu = dateSimu;
     }
 
-
+    /**
+     * Evenement d'accès à un appel téléphonique
+     */
     public void AccesTelephone(){
         MiseAJourDesAires();
         AjouterEvenement(4,dateSimu+loi.getDureeTraitementAppel());
@@ -163,6 +208,9 @@ public class Simulation
         derniereDateSimu = dateSimu;
     }
 
+    /**
+     * Evenement de sortie d'un appel téléphonique
+     */
     public void SortieTelephone(){
         MiseAJourDesAires();
         centreAppel.setConseillerTelephone(centreAppel.getConseillerTelephone()-1);
@@ -179,6 +227,9 @@ public class Simulation
         derniereDateSimu=dateSimu;
     }
 
+    /**
+     * Mise à jour des différentes aires
+     */
     public void MiseAJourDesAires(){
 
         aires.MajAireFileClient(dateSimu, derniereDateSimu,centreAppel.getNbClientQueueTelephone());
@@ -188,7 +239,12 @@ public class Simulation
 
     }
 
+    /**
+     * Fonction Main
+     * @param args
+     */
     public static void main(String[] args) {
+        //Nouvelle simulation
         Simulation simu = new Simulation(15,5,20);
         int i=0;
         int un=0;
@@ -197,37 +253,44 @@ public class Simulation
         int quatre=0;
         int cinq=0;
         int six=0;
-
+        //Pour chaque élément de la liste d'événement
         while (i<simu.getEvenements().size()){
             simu.setDateSimu(simu.getEvenements().get(i).getTime());
 
             int type=simu.getEvenements().get(i).getType();
 
+            //Si c'est un événement d'arrivée d'un appel téléphonique
             if (type==0){
                 simu.ArriveeTelephone();
                 un++;
             }
-            else if (type==1){
+            else //Si c'est un événement d'arrivée d'un mail
+                if (type==1){
                 simu.ArriveeMail();
                 deux++;
             }
-            else if (type==2){
+            else //Si c'est un événement d'accès à un appel téléphonique
+                if (type==2){
                 simu.AccesTelephone();
                 trois++;
             }
-            else if (type==3){
+            else //Si c'est un événement d'accès à un mail
+                if (type==3){
                 simu.AccesMail();
                 quatre++;
             }
-            else if (type==4){
+            else //Si c'est un événement de sortie d'appel téléphonique
+                if (type==4){
                 simu.SortieTelephone();
                 cinq++;
             }
-            else if (type==5){
+            else //Si c'est un événement de sortie de mail
+                if (type==5){
                 simu.SortieMail();
                 six++;
             }
-            else if (type==6){
+            else //Si c'est un événement de fin
+                if (type==6){
                 simu.Fin();
                 break;
             }

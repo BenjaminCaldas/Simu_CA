@@ -7,9 +7,12 @@ public class Aire
 {
     private double AireFileClient; //File attente client téléphone
     private double AireFileCourriel; //File attente mail
-    private double AireOccupationConseiller; //
-    private double AireOccupationConseillerTelephone;
+    private double AireOccupationConseiller; //Aire de l'occupation globale des conseillers
+    private double AireOccupationConseillerTelephone; //Aire de l'occupation des conseillers au téléphone
 
+    /**
+     * Constructeur des Aires
+     */
     public Aire()
     {
         this.AireFileClient = 0.0;
@@ -18,6 +21,14 @@ public class Aire
         this.AireOccupationConseillerTelephone = 0.0;
     }
 
+    /**
+     * Constructeur des aires
+     *
+     * @param AireFileClient
+     * @param AireFileCourriel
+     * @param AireOccupationConseiller
+     * @param AireQbt
+     */
     public Aire(double AireFileClient, double AireFileCourriel, double AireOccupationConseiller, double AireQbt)
     {
         this.setAireFileClient(AireFileClient);
@@ -26,6 +37,17 @@ public class Aire
         this.setAireOccupationConseillerTelephone(AireQbt);
     }
 
+    /**
+     * Mise à jour des aires
+     *
+     * @param dateSimu
+     * @param derniereDateSimu
+     * @param FileTelephone
+     * @param FileCourriel
+     * @param nbConseillerTelephone
+     * @param nbConseillerCourriel
+     * @param Qbt
+     */
     public void MajAire(double dateSimu, double derniereDateSimu, int FileTelephone, int FileCourriel,
                         int nbConseillerTelephone, int nbConseillerCourriel, int Qbt)
     {
@@ -35,6 +57,13 @@ public class Aire
         setAireOccupationConseillerTelephone(getAireOccupationConseillerTelephone() + ((dateSimu - derniereDateSimu) * Qbt));
     }
 
+    /**
+     * Mise à jour de l'aire de la taille de la file d'attente client téléphone
+     *
+     * @param dateSimu
+     * @param derniereDateSimu
+     * @param Qt
+     */
     public void MajAireFileClient(double dateSimu, double derniereDateSimu, int Qt)
     {
 
@@ -42,11 +71,26 @@ public class Aire
         System.out.println(getAireFileClient());
     }
 
+    /**
+     * Mise à jour de l'aire de la taille de la file d'attente client courriel
+     *
+     * @param dateSimu
+     * @param derniereDateSimu
+     * @param Qc
+     */
     public void MajAireFileCourriel(double dateSimu, double derniereDateSimu, int Qc)
     {
         setAireFileCourriel(getAireFileCourriel() + ((dateSimu - derniereDateSimu) * (double)Qc));
     }
 
+    /**
+     * Mise à jour de l'aire de l'occupation globale des conseillers
+     *
+     * @param dateSimu
+     * @param derniereDateSimu
+     * @param nbConseillerTelephone
+     * @param nbConseillerCourriel
+     */
     public void MajAireOccupationConseiller(double dateSimu, double derniereDateSimu,
                                             int nbConseillerTelephone, int nbConseillerCourriel)
     {
@@ -54,12 +98,18 @@ public class Aire
                 (double)(nbConseillerTelephone + nbConseillerCourriel)));
     }
 
+    /**
+     * Mise à jour de l'aire de l'occupation des conseillers au téléphone
+     *
+     * @param dateSimu
+     * @param derniereDateSimu
+     * @param OccupationConseillerTelephone
+     */
     public void MajAireOccupationConseillerTelephone(double dateSimu, double derniereDateSimu, int OccupationConseillerTelephone)
     {
         setAireOccupationConseillerTelephone(getAireOccupationConseillerTelephone() +
                 ((dateSimu - derniereDateSimu) * (double)OccupationConseillerTelephone));
     }
-
 
     public double getAireFileClient() {
         return AireFileClient;

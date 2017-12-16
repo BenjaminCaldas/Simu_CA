@@ -21,6 +21,13 @@ public class CentreAppel {
 	private int nbAppelTraites = 0; // Nb d'appels téléphoniques traités
 	private int nbCourrielTraites = 0; // Nb de courriels traités
 
+	/**
+	 * Constructeur du centre d'appel
+	 *
+	 * @param nbConseillers
+	 * @param nbConseillersTel
+	 * @param nbPostesTel
+	 */
 	public CentreAppel(int nbConseillers, int nbConseillersTel, int nbPostesTel) {
 		tempsActuel = ouverture;
 		N = nbConseillers;
@@ -31,19 +38,36 @@ public class CentreAppel {
 		conseillerCourriel = Nc;
 	}
 
+	/**
+	 * Incrémentation de la file de client dans la queue téléphonique
+	 */
 	public void incrementerFileTelephone() { ++nbClientQueueTelephone; }
+
+	/**
+	 * Décrémentation de la file de client dans la queue téléphonique
+	 */
 	public void decrementerFileTelephone() { --nbClientQueueTelephone; }
 
+	/**
+	 * Incrémentation de la file de client dans la queue courriel
+	 */
 	public void incrementerFileCourriel() { ++nbClientQueueCourriel; }
+
+	/**
+	 * Décrémenter de la file de client dans la queue courriel
+	 */
 	public void decrementerFileCourriel() { --nbClientQueueCourriel; }
 
+	/**
+	 * Incrémentation du nombre d'appels téléphoniques traités
+	 */
 	public void incrementerNbAppelsTelephoniquesTraites() { ++nbAppelTraites; }
+
+	/**
+	 * Incrémentation du nombre de courriels traités
+	 */
 	public void incrementerNbCourrielsTraites() { ++nbCourrielTraites; }
 
-	public boolean verifierTemps() {
-		if (tempsActuel < fermeture) return true;
-		else return false;
-	}
 
 	public int getConseillerTelephone() {
 		return conseillerTelephone;
