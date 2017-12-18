@@ -31,8 +31,13 @@ public class CentreAppel {
 	public CentreAppel(int nbConseillers, int nbConseillersTel, int nbPostesTel) {
 		tempsActuel = ouverture;
 		N = nbConseillers;
-		Nt = nbConseillersTel;
-		Nc = N - nbConseillersTel;
+                if (nbConseillersTel > nbPostesTel) {
+                    Nt = nbPostesTel;
+                    Nc = nbConseillers - nbPostesTel;
+                } else {
+                    Nt = nbConseillersTel;
+                    Nc = N - nbConseillersTel;
+                }
 		T = nbPostesTel;
 		conseillerTelephone = 0;
 		conseillerCourriel = Nc;
