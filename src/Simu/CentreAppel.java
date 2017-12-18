@@ -34,7 +34,7 @@ public class CentreAppel {
 		Nt = nbConseillersTel;
 		Nc = N - nbConseillersTel;
 		T = nbPostesTel;
-		conseillerTelephone = Nt;
+		conseillerTelephone = 0;
 		conseillerCourriel = Nc;
 	}
 

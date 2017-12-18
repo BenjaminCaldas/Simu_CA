@@ -191,7 +191,8 @@ public class Simulation
         AjouterEvenement(0,dateSimu+loi.getLoiExponentionnelleTelephone(dateSimu));
         centreAppel.incrementerFileTelephone();
         if(dateSimu<1800 && centreAppel.getConseillerTelephone()<centreAppel.getT()
-                &&centreAppel.getConseillerTelephone()+centreAppel.getConseillerCourriel()<centreAppel.getN()) {
+                && centreAppel.getConseillerTelephone()+centreAppel.getConseillerCourriel()<=centreAppel.getN()
+                && centreAppel.getConseillerTelephone() <= centreAppel.getNt()) {
                 AjouterEvenement(2, dateSimu);
         }
         derniereDateSimu = dateSimu;
@@ -245,7 +246,7 @@ public class Simulation
      */
     public static void main(String[] args) {
         //Nouvelle simulation
-        Simulation simu = new Simulation(15,5,20);
+        Simulation simu = new Simulation(20,1,15);
         int i=0;
         int un=0;
         int deux=0;
