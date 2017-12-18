@@ -46,7 +46,11 @@ public class CentreAppel {
 	/**
 	 * Décrémentation de la file de client dans la queue téléphonique
 	 */
-	public void decrementerFileTelephone() { --nbClientQueueTelephone; }
+	public void decrementerFileTelephone() { 
+            if (nbClientQueueTelephone > 0) {
+                --nbClientQueueTelephone; 
+            }
+        }
 
 	/**
 	 * Incrémentation de la file de client dans la queue courriel
@@ -56,8 +60,11 @@ public class CentreAppel {
 	/**
 	 * Décrémenter de la file de client dans la queue courriel
 	 */
-	public void decrementerFileCourriel() { --nbClientQueueCourriel; }
-
+	public void decrementerFileCourriel() { 
+            if (nbClientQueueCourriel > 0) {
+                --nbClientQueueCourriel;
+            } 
+        }
 	/**
 	 * Incrémentation du nombre d'appels téléphoniques traités
 	 */
