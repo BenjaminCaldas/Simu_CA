@@ -17,6 +17,8 @@ public class Simulation
     public ArrayList<Evenement> getEvenements() {
         return evenements;
     }
+    
+    public CentreAppel getCentreAppel() {return centreAppel;}
 
     /**
      * Setter de la date de simulation
@@ -44,6 +46,9 @@ public class Simulation
 
     private ArrayList<Evenement> evenements; //liste des événements
     private Loi loi = new Loi(); //classe servant à utiliser les lois
+    private int nbMailsNuit = 0; //nb de mails arrivés durant la nuit
+    
+    private int getNbMailsNuit() { return nbMailsNuit; }
 
     private double tempsAttenteClientTel=0.0; //Temps d'attente client
     private double delaiReponseCourrier=0.0; //Delai réponse courrier
@@ -73,10 +78,11 @@ public class Simulation
     public void Debut()
     {
         dateSimu=0;
-        centreAppel.setNbClientQueueCourriel(loi.getNbMailNuit());
+        nbMailsNuit = loi.getNbMailNuit();
+        centreAppel.setNbClientQueueCourriel(nbMailsNuit);
+        AjouterEvenement(6,centreAppel.getFermeture());
         AjouterEvenement(0,loi.getLoiExponentionnelleTelephone(dateSimu));
         AjouterEvenement(1,loi.getLoiExponentielleMail(dateSimu));
-        AjouterEvenement(6,centreAppel.getFermeture());
         derniereDateSimu=dateSimu;
     }
 
@@ -87,16 +93,16 @@ public class Simulation
      * @return
      */
     public int AjouterEvenement(int typeEvenement, double temps){
-        Iterator<Evenement> it = evenements.iterator();
-        int i=0;
-        while (it.hasNext()) {
-            if (it.next().getTime() > temps){
-                evenements.add(i,new Evenement(typeEvenement,temps));
-                return 0;
+            Iterator<Evenement> it = evenements.iterator();
+            int i=0;
+            while (it.hasNext()) {
+                if (it.next().getTime() > temps){
+                    evenements.add(i,new Evenement(typeEvenement,temps));
+                    return 0;
+                }
+                i++;
             }
-            i++;
-        }
-        evenements.add(new Evenement(typeEvenement,temps));
+            evenements.add(new Evenement(typeEvenement,temps));
         return 0;
     }
 
@@ -245,7 +251,7 @@ public class Simulation
      */
     public static void main(String[] args) {
         //Nouvelle simulation
-        Simulation simu = new Simulation(1,1,1);
+        Simulation simu = new Simulation(10,18,12);
         int i=0;
         int un=0;
         int deux=0;
@@ -302,9 +308,12 @@ public class Simulation
             System.out.println(" ");*/
             i++;
         }
-        simu.PrintJournal();
+        //simu.PrintJournal();
+        //Rappel des ressources (car modification intelligente en cas d'erreur de saisie
+        System.out.println("Nb employés : " + simu.getCentreAppel().getN() + ", Nb employés tel : " + simu.getCentreAppel().getNt() + " (" +simu.getCentreAppel().getT() +  " postes tel), Nb employés courriel : " + simu.getCentreAppel().getNc());
+        System.out.println("Nb mails arrivés dans la nuit :" + simu.getNbMailsNuit());
+        System.out.println("Arrivee mail (hors nuit) :"+deux);
         System.out.println("Arrivee Telephone :"+un);
-        System.out.println("Arrivee mail :"+deux);
         System.out.println("Acces Telephone :"+trois);
         System.out.println("Accès mail :"+quatre);
         System.out.println("Sortie Tel :"+cinq);
