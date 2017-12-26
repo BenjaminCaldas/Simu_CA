@@ -125,7 +125,11 @@ public class Simulation
 
         //Calcul des indicateurs statistiques
         tempsAttenteClientTel=aires.getAireFileClient()/centreAppel.getNbAppelTraites();
-        delaiReponseCourrier=aires.getAireFileCourriel()/centreAppel.getNbCourrielTraites();
+        if (centreAppel.getNbCourrielTraites() != 0) {
+            delaiReponseCourrier=aires.getAireFileCourriel()/centreAppel.getNbCourrielTraites();
+        } else {
+            delaiReponseCourrier = 1000000; // Si pas de courriers traités, on mets un délai anormalement long (pour déterminer le score)
+        }
         tauxOccupationConseiller=aires.getAireOccupationConseiller()/(centreAppel.getFermeture()*centreAppel.getN());
         tauxOccupationPosteTel=aires.getAireOccupationConseillerTelephone()/(centreAppel.getFermeture()*centreAppel.getT());
         nbClientMoyenQueueTelephone=aires.getAireFileClient()/centreAppel.getFermeture();
